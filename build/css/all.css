@@ -14,18 +14,6 @@ body {
   height: 100vh;
 }
 
-h1,
-h2 {
-  color: rgba(255, 99, 71, 0.75);
-  animation: glow 5s infinite alternate;
-  font-weight: normal;
-  font-size: 60px;
-  line-height: 1;
-}
-
-h2 {
-  font-size: 36px;
-}
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
@@ -35,17 +23,5 @@ h2 {
   }
   100% {
     background-position: 0% 50%;
-  }
-}
-
-@keyframes glow {
-  to {
-    text-shadow: 0 0 15px tomato;
-  }
-}
-
-@keyframes shine {
-  to {
-    background-position: 200% center;
   }
 }
