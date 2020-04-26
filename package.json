@@ -16,6 +16,9 @@
     "url": "https://github.com/dench1k/gulp-simple/issues"
   },
   "homepage": "https://github.com/dench1k/gulp-simple#readme",
+  "dependencies": {
+    "normalize.css": "^8.0.1"
+  },
   "devDependencies": {
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1"
