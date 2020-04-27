@@ -3,6 +3,8 @@ const concat = require("gulp-concat");
 const autoprefixer = require("gulp-autoprefixer");
 const cleanCSS = require("gulp-clean-css");
 
+const jsFiles = ["./src/js/lib.js", "./src/js/app.js"];
+
 const cssFiles = [
   "./node_modules/normalize.css/normalize.css",
   "./src/css/styles.css",
@@ -22,7 +24,9 @@ function styles() {
     .pipe(gulp.dest("build/css"));
 }
 
-function scripts() {}
+function scripts() {
+  return gulp.src(jsFiles).pipe(concat("all.js")).pipe(gulp.dest("build/js"));
+}
 
 gulp.task("styles", styles);
 gulp.task("scripts", scripts);
