@@ -2,6 +2,7 @@ const gulp = require("gulp");
 const concat = require("gulp-concat");
 const autoprefixer = require("gulp-autoprefixer");
 const cleanCSS = require("gulp-clean-css");
+const uglify = require("gulp-uglify");
 
 const jsFiles = ["./src/js/lib.js", "./src/js/app.js"];
 
@@ -25,7 +26,15 @@ function styles() {
 }
 
 function scripts() {
-  return gulp.src(jsFiles).pipe(concat("all.js")).pipe(gulp.dest("build/js"));
+  return gulp
+    .src(jsFiles)
+    .pipe(concat("all.js"))
+    .pipe(
+      uglify({
+        toplevel: true,
+      })
+    )
+    .pipe(gulp.dest("build/js"));
 }
 
 gulp.task("styles", styles);
