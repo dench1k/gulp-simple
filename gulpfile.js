@@ -37,5 +37,11 @@ function scripts() {
     .pipe(gulp.dest("build/js"));
 }
 
+function watch() {
+  gulp.watch("./src/css/**/*.css", styles);
+  gulp.watch("./src/js/**/*.js", scripts);
+}
+
 gulp.task("styles", styles);
 gulp.task("scripts", scripts);
+gulp.task("watch", watch);
