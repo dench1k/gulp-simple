@@ -3,6 +3,7 @@ const concat = require("gulp-concat");
 const autoprefixer = require("gulp-autoprefixer");
 const cleanCSS = require("gulp-clean-css");
 const uglify = require("gulp-uglify");
+const del = require("del");
 
 const jsFiles = ["./src/js/lib.js", "./src/js/app.js"];
 
@@ -42,6 +43,11 @@ function watch() {
   gulp.watch("./src/js/**/*.js", scripts);
 }
 
+function clean() {
+  return del(["build/*"]);
+}
+
 gulp.task("styles", styles);
 gulp.task("scripts", scripts);
 gulp.task("watch", watch);
+gulp.task("build", gulp.series(clean, gulp.parallel(styles, scripts)));
