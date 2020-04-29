@@ -5,6 +5,7 @@ const cleanCSS = require("gulp-clean-css");
 const uglify = require("gulp-uglify");
 const del = require("del");
 const browserSync = require("browser-sync").create();
+const sourcemaps = require("gulp-sourcemaps");
 
 const jsFiles = ["./src/js/lib.js", "./src/js/app.js"];
 
@@ -17,6 +18,7 @@ const cssFiles = [
 function styles() {
   return gulp
     .src(cssFiles)
+    .pipe(sourcemaps.init())
     .pipe(concat("all.css"))
     .pipe(
       autoprefixer({
@@ -24,6 +26,7 @@ function styles() {
       })
     )
     .pipe(cleanCSS({ level: 2 }))
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest("build/css"))
     .pipe(browserSync.stream());
 }
@@ -52,12 +55,12 @@ function watch() {
   gulp.watch("./*.html").on("change", browserSync.reload);
 }
 
-function clean() {
+function clear() {
   return del(["build/*"]);
 }
 
 gulp.task("styles", styles);
 gulp.task("scripts", scripts);
 gulp.task("watch", watch);
-gulp.task("build", gulp.series(clean, gulp.parallel(styles, scripts)));
+gulp.task("build", gulp.series(clear, gulp.parallel(styles, scripts)));
 gulp.task("dev", gulp.series("build", "watch"));
