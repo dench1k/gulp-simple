@@ -6,6 +6,11 @@ const uglify = require("gulp-uglify");
 const del = require("del");
 const browserSync = require("browser-sync").create();
 const sourcemaps = require("gulp-sourcemaps");
+const gulpif = require("gulp-if");
+
+const isDev = process.argv.indexOf("--dev") !== -1;
+const isProd = !isDev;
+const isSync = process.argv.indexOf("--sync") !== -1;
 
 const jsFiles = ["./src/js/lib.js", "./src/js/app.js"];
 
@@ -18,17 +23,17 @@ const cssFiles = [
 function styles() {
   return gulp
     .src(cssFiles)
-    .pipe(sourcemaps.init())
+    .pipe(gulpif(isDev, sourcemaps.init()))
     .pipe(concat("all.css"))
     .pipe(
       autoprefixer({
         cascade: false,
       })
     )
-    .pipe(cleanCSS({ level: 2 }))
-    .pipe(sourcemaps.write())
+    .pipe(gulpif(isProd, cleanCSS({ level: 2 })))
+    .pipe(gulpif(isDev, sourcemaps.write()))
     .pipe(gulp.dest("build/css"))
-    .pipe(browserSync.stream());
+    .pipe(gulpif(isSync, browserSync.stream()));
 }
 
 function scripts() {
@@ -41,15 +46,18 @@ function scripts() {
       })
     )
     .pipe(gulp.dest("build/js"))
-    .pipe(browserSync.stream());
+    .pipe(gulpif(isSync, browserSync.stream()));
 }
 
 function watch() {
-  browserSync.init({
-    server: {
-      baseDir: "./",
-    },
-  });
+  if (isSync) {
+    browserSync.init({
+      server: {
+        baseDir: "./",
+      },
+    });
+  }
+
   gulp.watch("./src/css/**/*.css", styles);
   gulp.watch("./src/js/**/*.js", scripts);
   gulp.watch("./*.html").on("change", browserSync.reload);
