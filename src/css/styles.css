@@ -21,3 +21,9 @@ body {
     background-position: 0% 50%;
   }
 }
+
+@media screen and (max-width: 860px) {
+  h1 {
+    border: 1px solid yellow;
+  }
+}

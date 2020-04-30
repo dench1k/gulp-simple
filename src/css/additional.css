@@ -7,3 +7,9 @@ h1 {
   color: #fff;
   text-shadow: 0 0 4px rgba(255, 99, 71, 0.8);
 }
+
+@media screen and (max-width: 860px) {
+  h1 {
+    border: 1px solid red;
+  }
+}

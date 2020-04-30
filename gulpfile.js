@@ -7,6 +7,7 @@ const del = require("del");
 const browserSync = require("browser-sync").create();
 const sourcemaps = require("gulp-sourcemaps");
 const gulpif = require("gulp-if");
+const gcmq = require("gulp-group-css-media-queries");
 
 const isDev = process.argv.indexOf("--dev") !== -1;
 const isProd = !isDev;
@@ -25,6 +26,7 @@ function styles() {
     .src(cssFiles)
     .pipe(gulpif(isDev, sourcemaps.init()))
     .pipe(concat("all.css"))
+    .pipe(gcmq())
     .pipe(
       autoprefixer({
         cascade: false,
