@@ -8,6 +8,8 @@ const browserSync = require("browser-sync").create();
 const sourcemaps = require("gulp-sourcemaps");
 const gulpif = require("gulp-if");
 const gcmq = require("gulp-group-css-media-queries");
+const babel = require("gulp-babel");
+const less = require("gulp-less");
 
 const isDev = process.argv.indexOf("--dev") !== -1;
 const isProd = !isDev;
@@ -15,17 +17,18 @@ const isSync = process.argv.indexOf("--sync") !== -1;
 
 const jsFiles = ["./src/js/lib.js", "./src/js/app.js"];
 
-const cssFiles = [
-  "./node_modules/normalize.css/normalize.css",
-  "./src/css/styles.css",
-  "./src/css/additional.css",
-];
+// const cssFiles = [
+//   "./node_modules/normalize.css/normalize.css",
+//   "./src/css/general.css",
+//   "./src/css/additional.css",
+// ];
 
 function styles() {
   return gulp
-    .src(cssFiles)
+    .src("./src/css/style.less")
+    .on("error", console.error.bind(console))
     .pipe(gulpif(isDev, sourcemaps.init()))
-    .pipe(concat("all.css"))
+    .pipe(less())
     .pipe(gcmq())
     .pipe(
       autoprefixer({
@@ -41,12 +44,16 @@ function styles() {
 function scripts() {
   return gulp
     .src(jsFiles)
-    .pipe(concat("all.js"))
+    .pipe(gulpif(isDev, sourcemaps.init()))
+    .pipe(concat("app.js"))
+    .pipe(babel({ presets: ["@babel/env"] }))
+    .on("error", console.error.bind(console))
     .pipe(
       uglify({
         toplevel: true,
       })
     )
+    .pipe(gulpif(isDev, sourcemaps.write()))
     .pipe(gulp.dest("./build/js"))
     .pipe(gulpif(isSync, browserSync.stream()));
 }
@@ -71,7 +78,7 @@ function watch() {
     });
   }
 
-  gulp.watch("./src/css/**/*.css", styles);
+  gulp.watch("./src/css/**/*.less", styles);
   gulp.watch("./src/js/**/*.js", scripts);
   gulp.watch("./src/*.html", html);
 }
