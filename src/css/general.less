@@ -1,3 +1,10 @@
+@columns: 12;
+@offset: 30px;
+
+.size(@n) {
+  width: calc(100% / @columns * @n - @offset);
+}
+
 body {
   background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
   background-size: 500% 500%;
@@ -29,5 +36,6 @@ h1 {
 @media screen and (max-width: 860px) {
   h1 {
     border: 1px solid yellow;
+    .size(6);
   }
 }
