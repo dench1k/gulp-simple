@@ -32,7 +32,7 @@ function styles() {
     )
     .pipe(gulpif(isProd, cleanCSS({ level: 2 })))
     .pipe(gulpif(isDev, sourcemaps.write()))
-    .pipe(gulp.dest("build/css"))
+    .pipe(gulp.dest("./build/css"))
     .pipe(gulpif(isSync, browserSync.stream()));
 }
 
@@ -45,7 +45,18 @@ function scripts() {
         toplevel: true,
       })
     )
-    .pipe(gulp.dest("build/js"))
+    .pipe(gulp.dest("./build/js"))
+    .pipe(gulpif(isSync, browserSync.stream()));
+}
+
+function images() {
+  return gulp.src("./src/images/**/*").pipe(gulp.dest("./build/images"));
+}
+
+function html() {
+  return gulp
+    .src("./src/*.html")
+    .pipe(gulp.dest("./build"))
     .pipe(gulpif(isSync, browserSync.stream()));
 }
 
@@ -53,14 +64,14 @@ function watch() {
   if (isSync) {
     browserSync.init({
       server: {
-        baseDir: "./",
+        baseDir: "./build/",
       },
     });
   }
 
   gulp.watch("./src/css/**/*.css", styles);
   gulp.watch("./src/js/**/*.js", scripts);
-  gulp.watch("./*.html").on("change", browserSync.reload);
+  gulp.watch("./src/*.html", html);
 }
 
 function clear() {
@@ -70,5 +81,8 @@ function clear() {
 gulp.task("styles", styles);
 gulp.task("scripts", scripts);
 gulp.task("watch", watch);
-gulp.task("build", gulp.series(clear, gulp.parallel(styles, scripts)));
+gulp.task(
+  "build",
+  gulp.series(clear, gulp.parallel(styles, images, html, scripts))
+);
 gulp.task("dev", gulp.series("build", "watch"));

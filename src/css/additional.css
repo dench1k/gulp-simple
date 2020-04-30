@@ -2,3 +2,8 @@ a {
   text-decoration: underline;
   color: tomato;
 }
+
+h1 {
+  color: #fff;
+  text-shadow: 0 0 4px rgba(255, 99, 71, 0.8);
+}
