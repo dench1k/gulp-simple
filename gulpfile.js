@@ -62,6 +62,10 @@ function images() {
   return gulp.src("./src/images/**/*").pipe(gulp.dest("./build/images"));
 }
 
+function fonts() {
+  return gulp.src("./src/fonts/**/*").pipe(gulp.dest("./build/fonts"));
+}
+
 function html() {
   return gulp
     .src("./src/*.html")
@@ -92,6 +96,6 @@ gulp.task("scripts", scripts);
 gulp.task("watch", watch);
 gulp.task(
   "build",
-  gulp.series(clear, gulp.parallel(styles, images, html, scripts))
+  gulp.series(clear, gulp.parallel(styles, images, fonts, html, scripts))
 );
 gulp.task("dev", gulp.series("build", "watch"));
