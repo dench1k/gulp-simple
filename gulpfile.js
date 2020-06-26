@@ -91,11 +91,19 @@ function clear() {
   return del(["build/*"]);
 }
 
+function inject() {
+  // to implement
+}
+
 gulp.task("styles", styles);
 gulp.task("scripts", scripts);
 gulp.task("watch", watch);
+gulp.task("inject", inject);
 gulp.task(
   "build",
-  gulp.series(clear, gulp.parallel(styles, images, fonts, html, scripts))
+  gulp.series(
+    clear,
+    gulp.parallel(styles, images, fonts, html, scripts, inject)
+  )
 );
 gulp.task("dev", gulp.series("build", "watch"));
