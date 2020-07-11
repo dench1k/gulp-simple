@@ -92,19 +92,22 @@ function clear() {
   return del(["build/*"]);
 }
 
-function inject() {
-  // to implement
+function injectScripts() {
+  var target = gulp.src("./src/index.html");
+  var sources = gulp.src("./src/**/*.js", { read: false }, { relative: true });
+  return target.pipe(inject(sources)).pipe(gulp.dest("./src"));
 }
 
 gulp.task("styles", styles);
 gulp.task("scripts", scripts);
 gulp.task("watch", watch);
-gulp.task("inject", inject);
+gulp.task("inject", injectScripts);
 gulp.task(
   "build",
   gulp.series(
     clear,
-    gulp.parallel(styles, images, fonts, html, scripts, inject)
+    injectScripts,
+    gulp.parallel(styles, images, fonts, html, scripts)
   )
 );
 gulp.task("dev", gulp.series("build", "watch"));
