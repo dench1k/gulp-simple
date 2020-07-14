@@ -59,6 +59,13 @@ function scripts() {
     .pipe(gulpif(isSync, browserSync.stream()));
 }
 
+// scripts alternative start
+/*gulp.task('scripts', function () {
+	return gulp.src('./js/*.js')
+		.pipe(concat('all.js'))
+		.pipe(gulp.dest('./js/'));
+});*/
+
 function images() {
   return gulp.src("./src/images/**/*").pipe(gulp.dest("./build/images"));
 }
