@@ -59,13 +59,6 @@ function scripts() {
     .pipe(gulpif(isSync, browserSync.stream()));
 }
 
-// scripts php start
-/*gulp.task('scripts', function () {
-	return gulp.src('./js/*.js')
-		.pipe(concat('all.js'))
-		.pipe(gulp.dest('./js/'));
-});*/
-
 function images() {
   return gulp.src("./src/images/**/*").pipe(gulp.dest("./build/images"));
 }
@@ -95,14 +88,6 @@ function watch() {
   gulp.watch("./src/*.html", html);
 }
 
-// browserSync php start
-/*browserSync.init({
-	open: 'external',
-	host: 'my-interlogisticllc.loc',
-	proxy: 'my-interlogisticllc.loc',
-	port: 8080
-});*/
-
 function clear() {
   return del(["build/*"]);
 }
@@ -126,13 +111,3 @@ gulp.task(
   )
 );
 gulp.task("dev", gulp.series("build", "watch"));
-
-// php workflow start
-/*gulp.task('serve', function (done) {
-	gulp.watch("src/css/*.pcss", gulp.series('css'));
-	gulp.watch(['*.php', 'auction/*.php']).on('change', () => {
-		browserSync.reload();
-	});
-});
-
-gulp.task('default', gulp.series('css', 'scripts', 'serve'));*/
